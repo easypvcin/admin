@@ -7,6 +7,17 @@
   <title>Admin Panel - Orders</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script>
+  function downloadFile(url) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = url.split('/').pop(); // extract filename
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+    </script>
 </head>
 <body class="bg-gray-50 p-6">
 
@@ -414,15 +425,7 @@ alert("Failed to update tracking ID: " + error.message);
 }
 };
 
-    function downloadFile(url) {
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = url.split('/').pop(); // Extract filename from URL
-  link.target = '_blank';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  }
+  
   </script>
 </body>
 </html>

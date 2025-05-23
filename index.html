@@ -203,15 +203,27 @@ function scrollHandler() {
             </div>
 
             <div class="flex gap-3 mt-4">
-              ${order.image1 && order.image2 ? `
-                <img src="${order.image1}" onclick="openModal('${order.image1}')" class="w-40 h-40 object-cover rounded-lg cursor-pointer border">
-                <img src="${order.image2}" onclick="openModal('${order.image2}')" class="w-40 h-40 object-cover rounded-lg cursor-pointer border">`
-              : order.image1 ? `
-                <img src="${order.image1}" onclick="openModal('${order.image1}')" class="w-40 h-40 object-cover rounded-lg cursor-pointer border">`
-              : order.pdfUrl ? `
-                <iframe class="w-40 h-40 border rounded" src="${order.pdfUrl}"></iframe>`
-              : `<p class="text-red-500">No file uploaded.</p>`}
-            </div>
+  ${order.image1 && order.image2 ? `
+    <div class="flex flex-col items-center">
+      <img src="${order.image1}" onclick="openModal('${order.image1}')" class="w-40 h-40 object-cover rounded-lg cursor-pointer border">
+      <button onclick="downloadFile('${order.image1}')" class="mt-2 px-2 py-1 bg-blue-500 text-white text-sm rounded">Download</button>
+    </div>
+    <div class="flex flex-col items-center">
+      <img src="${order.image2}" onclick="openModal('${order.image2}')" class="w-40 h-40 object-cover rounded-lg cursor-pointer border">
+      <button onclick="downloadFile('${order.image2}')" class="mt-2 px-2 py-1 bg-blue-500 text-white text-sm rounded">Download</button>
+    </div>`
+  : order.image1 ? `
+    <div class="flex flex-col items-center">
+      <img src="${order.image1}" onclick="openModal('${order.image1}')" class="w-40 h-40 object-cover rounded-lg cursor-pointer border">
+      <button onclick="downloadFile('${order.image1}')" class="mt-2 px-2 py-1 bg-blue-500 text-white text-sm rounded">Download</button>
+    </div>`
+  : order.pdfUrl ? `
+    <div class="flex flex-col items-center">
+      <iframe class="w-40 h-40 border rounded" src="${order.pdfUrl}"></iframe>
+      <button onclick="downloadFile('${order.pdfUrl}')" class="mt-2 px-2 py-1 bg-green-600 text-white text-sm rounded">Download PDF</button>
+    </div>`
+  : `<p class="text-red-500">No file uploaded.</p>`}
+</div>
 
             ${order.status === 'Spam' ? `
               <div class="mt-4 bg-red-50 border border-red-100 text-red-700 px-4 py-2 rounded-lg text-sm">
@@ -401,6 +413,16 @@ console.error("Error updating tracking ID:", error);
 alert("Failed to update tracking ID: " + error.message);
 }
 };
+
+    function downloadFile(url) {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = url.split('/').pop(); // Extract filename from URL
+  link.target = '_blank';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  }
   </script>
 </body>
 </html>
